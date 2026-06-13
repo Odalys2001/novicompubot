@@ -1,3 +1,4 @@
+import os
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import (
     Application,
@@ -7,8 +8,13 @@ from telegram.ext import (
     ContextTypes
 )
 
-TOKEN = "8866666939:AAHTlydcziLWflABTJlnfPHzINnC1u9PoVA"
+# 🔐 TOKEN SEGURO PARA RENDER
+TOKEN = os.getenv("TOKEN")
 
+
+# ======================
+# START
+# ======================
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     teclado = [
@@ -26,14 +32,15 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+# ======================
+# RESPUESTAS
+# ======================
 async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     texto = update.message.text.lower()
     print("Mensaje recibido:", texto)
 
-    # ======================
     # 🛒 PRODUCTOS
-    # ======================
     if "productos" in texto:
 
         await update.message.reply_text(
@@ -63,49 +70,37 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("❌ No se encontró la imagen")
             print("ERROR imagen:", e)
 
-    # ======================
     # 🔧 SERVICIOS
-    # ======================
     elif "servicios" in texto:
         await update.message.reply_text(
             "🛠️ Reparación, Formateo, Redes, Instalación de software"
         )
 
-    # ======================
     # 💰 PROMOCIONES
-    # ======================
     elif "promociones" in texto:
         await update.message.reply_text(
             "🔥 Laptop Lenovo $599\n🖥️ PC Gamer $850"
         )
 
-    # ======================
     # 📞 CONTACTO
-    # ======================
     elif "contacto" in texto:
         await update.message.reply_text(
             "📱 0987654321\n📧 ventas@novicompu.com"
         )
 
-    # ======================
     # 📍 UBICACIÓN
-    # ======================
     elif "ubicación" in texto:
         await update.message.reply_text(
-            "📍 Ventanas - Los Ríos - Ecuador"
+            "📍Babahoyo - Los Ríos - Ecuador"
         )
 
-    # ======================
     # ℹ️ NOSOTROS
-    # ======================
     elif "nosotros" in texto:
         await update.message.reply_text(
             "NOVICOMPU: venta de equipos y soporte técnico"
         )
 
-    # ======================
     # 📄 CARÁTULA
-    # ======================
     elif "carátula" in texto:
 
         try:
@@ -118,13 +113,13 @@ async def responder(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("❌ No se encontró caratula.jpg")
             print("ERROR caratula:", e)
 
-    # ======================
-    # OTROS MENSAJES
-    # ======================
     else:
         await update.message.reply_text(f"Recibí: {texto}")
 
 
+# ======================
+# MAIN
+# ======================
 def main():
 
     app = Application.builder().token(TOKEN).build()
